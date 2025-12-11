@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Zap } from 'lucide-react';
 import type { DashboardWidget } from '@/config/dashboard-widgets';
 
@@ -40,6 +40,12 @@ export function CommandPalette({
     }
   }, [isOpen]);
 
+  const handleWidgetSelect = useCallback((widget: DashboardWidget) => {
+    onWidgetClick(widget.query);
+    onClose();
+    setSearch('');
+  }, [onWidgetClick, onClose]);
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -71,13 +77,7 @@ export function CommandPalette({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, selectedIndex, filteredWidgets, onClose]);
-
-  const handleWidgetSelect = (widget: DashboardWidget) => {
-    onWidgetClick(widget.query);
-    onClose();
-    setSearch('');
-  };
+  }, [isOpen, selectedIndex, filteredWidgets, onClose, handleWidgetSelect]);
 
   if (!isOpen) return null;
 

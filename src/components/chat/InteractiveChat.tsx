@@ -685,7 +685,7 @@ export const InteractiveChat = forwardRef<InteractiveChatRef, InteractiveChatPro
       </div>
 
       {/* Input Area - Fixed at bottom, centered */}
-      <div className="border-t border-border bg-card px-6 py-6">
+      <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-xl px-6 py-6">
         <div className="max-w-3xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-3">
             <input

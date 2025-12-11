@@ -17,7 +17,7 @@ export function FeedbackPanel() {
     mode,
     screenshot,
     annotations,
-    taggedElements,
+    // taggedElements,
     isCapturing,
     isSubmitting,
     closeWidget,
@@ -30,7 +30,7 @@ export function FeedbackPanel() {
   } = useFeedback();
 
   const [step, setStep] = useState<PanelStep>('capture');
-  const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
+  // const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
 
   const handleCapture = async () => {
     await startCapture();
@@ -68,7 +68,7 @@ export function FeedbackPanel() {
     <>
       {/* Element highlight overlay for element selection mode */}
       {mode === 'selecting' && (
-        <ElementHighlight element={hoveredElement} />
+        <ElementHighlight element={null} />
       )}
 
       {/* Annotation overlay when in annotating mode */}

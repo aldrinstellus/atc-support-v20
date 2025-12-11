@@ -54,7 +54,51 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **[⚡ Features](./docs/06-features/FEATURE-OVERVIEW.md)** - All capabilities
 - **And 8 more comprehensive sections** (testing, deployment, operations, security, workflows, reference)
 
-**Historical Documentation**: `/Aldo/` folder contains previous documentation for reference.
+**Historical Documentation**: `/Aldo/` folder contains archived content organized by type.
+
+## 📁 Folder Structure (SDLC-Compliant)
+
+```
+atc-support-v20/
+├── src/                    # Source code
+├── docs/                   # SDLC documentation (15 categories)
+│   ├── 00-DOCUMENTATION-INDEX.md
+│   ├── 01-getting-started/ # Quick start, PRD
+│   ├── 02-architecture/
+│   ├── 03-api/
+│   ├── ...
+│   └── 15-reference/
+├── archive/                # Session artifacts (NOT in git)
+│   ├── savepoints/         # All PROJECT-SAVEPOINT-*.md files
+│   ├── screenshots/        # Test screenshots
+│   ├── images/             # Misc images (CTIS logo, etc.)
+│   ├── demo-scripts/       # Demo presentation scripts
+│   ├── src-backups/        # Backup source code experiments
+│   ├── implementation-reports/
+│   ├── session-summaries/
+│   └── historical-docs/
+├── Aldo/                   # Historical content (organized)
+│   ├── archive/
+│   │   ├── testing/        # All test-related artifacts
+│   │   ├── historical/     # Version docs, notes, analysis
+│   │   ├── implementation-reports/
+│   │   └── session-summaries/
+│   ├── config/             # Configuration backups
+│   └── scripts/            # Utility scripts
+├── __tests__/              # Active test files (Jest)
+├── e2e/                    # Playwright E2E tests
+├── prisma/                 # Database schema
+├── public/                 # Static assets
+├── scripts/                # Build/dev scripts
+└── tokens/                 # Design tokens
+```
+
+**Organization Rules**:
+- ✅ Savepoints → `archive/savepoints/`
+- ✅ Test artifacts → `Aldo/archive/testing/`
+- ✅ Screenshots → `archive/screenshots/`
+- ✅ Historical docs → `Aldo/archive/historical/`
+- ✅ Implementation reports → `archive/implementation-reports/`
 
 ## Application URLs
 
@@ -232,13 +276,12 @@ src/
 │   └── demo-widget-data.ts   # Mock data for widgets
 └── contexts/                 # React context providers
 
-archive/                      # Historical content (not in src/)
-├── v14-historical-docs/      # V14 documentation (formerly Aldo/)
-├── ui-experiments/           # Old UI experiments
-├── analysis/                 # Historical analysis
-├── references/               # Reference materials
-├── notes/                    # Development notes
-└── screenshots/              # Old screenshots
+archive/                      # Session artifacts (organized 2025-12-11)
+├── savepoints/               # All PROJECT-SAVEPOINT-*.md files
+├── screenshots/              # Test screenshots
+├── images/                   # Misc images
+├── demo-scripts/             # Demo scripts
+└── src-backups/              # Source code experiments
 ```
 
 ## Key Features

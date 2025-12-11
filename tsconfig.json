@@ -39,6 +39,9 @@
     "node_modules",
     "archive/**/*",
     "**/*-backup/**/*",
-    "**/app-demo-*-backup/**/*"
+    "**/app-demo-*-backup/**/*",
+    "__tests__/**/*",
+    "Aldo/**/*",
+    "e2e/**/*"
   ]
 }

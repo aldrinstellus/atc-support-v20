@@ -1,12 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright E2E Testing Configuration for Enterprise AI Support V4
- * Tests multi-persona query detection, widget rendering, and conversation flows
+ * Playwright E2E Testing Configuration for Enterprise AI Support V20
+ * Tests authentication, draft review, and multi-persona features
  */
 export default defineConfig({
-  // Test directory
-  testDir: './tests/e2e',
+  // Test directory - includes both e2e/ and tests/e2e/
+  testDir: './e2e',
 
   // Parallel execution
   fullyParallel: true,
@@ -22,15 +22,15 @@ export default defineConfig({
 
   // Test reporters
   reporter: [
-    ['html', { outputFolder: 'tests/reports/playwright-report', open: 'never' }],
-    ['json', { outputFile: 'tests/reports/test-results.json' }],
+    ['html', { outputFolder: 'test-results/playwright-report', open: 'never' }],
+    ['json', { outputFile: 'test-results/test-results.json' }],
     ['list']
   ],
 
   // Global test configuration
   use: {
-    // Base URL for V4 application
-    baseURL: 'http://localhost:3004',
+    // Base URL for V20 application
+    baseURL: 'http://localhost:3020',
 
     // Capture screenshots on failure
     screenshot: 'only-on-failure',
@@ -49,32 +49,21 @@ export default defineConfig({
   // Test projects
   projects: [
     {
-      name: 'chromium-c-level',
+      name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
       },
-      testMatch: ['**/personas/c-level.spec.ts']
-    },
-
-    {
-      name: 'chromium-cs-manager',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
-      },
-      testMatch: ['**/personas/cs-manager.spec.ts']
-    },
-
-    {
-      name: 'chromium-support-agent',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
-      },
-      testMatch: ['**/personas/support-agent.spec.ts']
     },
   ],
+
+  // Web server configuration
+  webServer: {
+    command: 'PORT=3020 npm run dev',
+    url: 'http://localhost:3020',
+    reuseExistingServer: true,
+    timeout: 120000,
+  },
 
   // Test timeouts
   timeout: 90000, // 90 seconds per test

@@ -14,7 +14,7 @@ export const maxDuration = 60;
  * POST /api/zoho/process-ticket
  * Returns mock data message - actual webhook processing disabled
  */
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   return NextResponse.json({
     success: true,
     message: 'This webhook endpoint is currently disabled. The app uses mock data for demo purposes.',

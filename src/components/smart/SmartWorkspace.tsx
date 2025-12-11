@@ -28,7 +28,7 @@ import {
 } from '@/data/demo-widget-data';
 import type { WidgetType, WidgetData } from '@/types/widget';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 const _widgetDataMap: Partial<Record<WidgetType, WidgetData>> = {
   'executive-summary': executiveSummaryDemo,
   'customer-risk-profile': customerRiskProfileDemo,
@@ -54,7 +54,7 @@ const _widgetDataMap: Partial<Record<WidgetType, WidgetData>> = {
 
 export function SmartWorkspace() {
   const { currentPersona } = usePersona();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const { sidebarOpen: _sidebarOpen } = useSidebar();
   const [dashboardOpen, setDashboardOpen] = useState(true);
   const [pinnedWidgets, setPinnedWidgets] = useState<string[]>([]);

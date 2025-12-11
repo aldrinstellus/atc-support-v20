@@ -4,8 +4,9 @@ import packageJson from "../../package.json";
 import { ModeProvider } from "@/contexts/ModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { FeedbackProvider } from "@/contexts/FeedbackContext";
-import { FeedbackWidget } from "@/components/feedback";
-import { DemoModeIndicator } from "@/components/demo/DemoModeIndicator";
+// import { FeedbackWidget } from "@/components/feedback";
+// import { DemoModeIndicator } from "@/components/demo/DemoModeIndicator";
+import { SessionProvider } from "@/components/auth/SessionProvider";
 
 // Helper function to format version for display (14.0.0 → V14, 14.1.0 → V14.1)
 function getVersionDisplay(version: string): string {
@@ -46,15 +47,17 @@ export default function RootLayout({
       <head>
       </head>
       <body className="h-screen overflow-hidden bg-background font-sans antialiased">
-        <ThemeProvider>
-          <ModeProvider>
-            <FeedbackProvider>
-              {children}
-              {/* <FeedbackWidget /> - Hidden for demo, see docs/06-features/FEEDBACK-WIDGET.md */}
-              {/* <DemoModeIndicator /> */}
-            </FeedbackProvider>
-          </ModeProvider>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider>
+            <ModeProvider>
+              <FeedbackProvider>
+                {children}
+                {/* <FeedbackWidget /> - Hidden for demo, see docs/06-features/FEEDBACK-WIDGET.md */}
+                {/* <DemoModeIndicator /> */}
+              </FeedbackProvider>
+            </ModeProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

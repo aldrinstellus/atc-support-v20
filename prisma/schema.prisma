@@ -585,4 +585,170 @@ enum ActivityType {
   USER_LOGIN
   REPORT_GENERATED
   SETTINGS_CHANGED
+
+  // V20 ITSS Draft Activities
+  DRAFT_GENERATED
+  DRAFT_REVIEWED
+  DRAFT_APPROVED
+  DRAFT_REJECTED
+  DRAFT_SENT
+  DRAFT_REGENERATED
+}
+
+// ============================================================================
+// V20 ITSS - AI DRAFT SYSTEM MODELS
+// Human-in-the-Loop AI Response Generation
+// ============================================================================
+
+// AI-generated response draft for support tickets
+model Draft {
+  id              String       @id @default(cuid())
+  draftId         String       @unique // e.g., "DRAFT-2025-001"
+  ticketId        String       // Reference to external ticket (Zoho, etc.)
+  ticketSubject   String       // Cached ticket subject
+  customerName    String?      // Customer who submitted ticket
+  customerEmail   String?      // Customer email
+  originalContent String       @db.Text // Original customer message
+  draftContent    String       @db.Text // AI-generated draft response
+  finalContent    String?      @db.Text // Approved/edited content (what was sent)
+  status          DraftStatus  @default(PENDING_REVIEW)
+
+  // AI Classification & Metadata
+  confidenceScore Float        @default(0) // 0-100 confidence in response
+  category        String?      // password_reset, access_request, bug_report, question
+  priority        Priority     @default(MEDIUM)
+  sentiment       String?      // frustrated, neutral, satisfied
+  complexity      String?      // simple, moderate, complex
+  tone            String?      // formal, friendly, technical
+
+  // Workflow Timestamps
+  generatedAt     DateTime     @default(now())
+  reviewedAt      DateTime?
+  approvedAt      DateTime?
+  sentAt          DateTime?
+  rejectedAt      DateTime?
+
+  // Agent Assignment
+  assignedAgentId String?
+  reviewedById    String?
+  approvedById    String?
+  rejectionReason String?      @db.Text
+
+  // Knowledge Base References
+  kbArticlesUsed  String[]     // Array of KB article IDs used for context
+  sourcesUsed     Json?        // Detailed source references
+
+  // AI Model Info
+  modelVersion    String?      // e.g., "claude-3-5-sonnet-20241022"
+  promptTokens    Int?         // Tokens used in prompt
+  completionTokens Int?        // Tokens in response
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  // Relations
+  versions        DraftVersion[]
+
+  @@index([draftId])
+  @@index([ticketId])
+  @@index([status])
+  @@index([assignedAgentId])
+  @@index([confidenceScore])
+  @@map("drafts")
+}
+
+// Draft status workflow
+enum DraftStatus {
+  GENERATING       // AI is actively generating
+  PENDING_REVIEW   // Awaiting agent review
+  IN_REVIEW        // Agent is currently reviewing
+  APPROVED         // Approved, pending send
+  REJECTED         // Rejected by agent
+  SENT             // Successfully sent to customer
+  FAILED           // Send failed
+  ESCALATED        // Escalated to supervisor
+}
+
+// Version history for draft edits
+model DraftVersion {
+  id              String   @id @default(cuid())
+  draftId         String
+  version         Int      @default(1)
+  content         String   @db.Text
+  editedBy        String?  // User ID or "AI" for regenerations
+  editedByName    String?  // Display name
+  editType        EditType @default(AI_GENERATED)
+  editSummary     String?  // Brief description of changes
+  editDistance    Int?     // Characters changed from previous version
+  changePercent   Float?   // Percentage of content changed
+
+  // Metadata for this version
+  confidenceScore Float?   // Confidence at this version
+  tone            String?  // Tone used for this version
+
+  createdAt       DateTime @default(now())
+
+  // Relations
+  draft           Draft    @relation(fields: [draftId], references: [id], onDelete: Cascade)
+
+  @@unique([draftId, version])
+  @@index([draftId])
+  @@map("draft_versions")
+}
+
+// Types of edits to track
+enum EditType {
+  AI_GENERATED    // Original AI generation
+  AGENT_EDIT      // Manual edit by agent
+  REGENERATE      // AI regenerated with new prompt
+  TONE_CHANGE     // Regenerated with different tone
+  AUTO_SAVE       // Auto-saved draft
+}
+
+// Agent session for SSO (extends NextAuth sessions)
+model AgentSession {
+  id              String   @id @default(cuid())
+  agentId         String   // Links to User.id
+  sessionToken    String   @unique
+  entraIdToken    String?  @db.Text // Microsoft Entra ID token
+  refreshToken    String?  @db.Text // Refresh token
+  expiresAt       DateTime
+  lastActiveAt    DateTime @default(now())
+  ipAddress       String?
+  userAgent       String?
+
+  createdAt       DateTime @default(now())
+
+  @@index([agentId])
+  @@index([expiresAt])
+  @@map("agent_sessions")
+}
+
+// Draft analytics aggregation (for Phase 2 learning loop)
+model DraftAnalytics {
+  id                  String   @id @default(cuid())
+  date                DateTime @default(now()) @db.Date
+  category            String?  // Ticket category
+
+  // Volume metrics
+  draftsGenerated     Int      @default(0)
+  draftsApproved      Int      @default(0)
+  draftsRejected      Int      @default(0)
+  draftsSent          Int      @default(0)
+
+  // Quality metrics
+  avgConfidenceScore  Float    @default(0)
+  avgEditDistance     Float    @default(0) // Average edits before approval
+  acceptanceRate      Float    @default(0) // Approved / (Approved + Rejected)
+
+  // Time metrics
+  avgReviewTime       Float    @default(0) // Minutes from generation to decision
+  avgTimeToSend       Float    @default(0) // Minutes from generation to send
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([date, category])
+  @@index([date])
+  @@map("draft_analytics")
 }

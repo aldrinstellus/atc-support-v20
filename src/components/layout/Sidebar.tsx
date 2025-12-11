@@ -19,7 +19,7 @@ interface SidebarProps {
 
 export function Sidebar({
   isOpen = true,
-  onToggle: _onToggle, // eslint-disable-line @typescript-eslint/no-unused-vars
+  onToggle: _onToggle,  
   onQuickAction,
   onNewConversation,
   onResetData,

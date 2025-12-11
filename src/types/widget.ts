@@ -1,6 +1,8 @@
 // Widget type definitions for Bhanu's assistant-first interface
 // These are ADDITIVE to the existing dashboard system (backward compatible)
 
+import type { Draft } from './draft';
+
 export type WidgetType =
   // Original V14/V15 Widget Types
   | 'executive-summary'
@@ -59,7 +61,9 @@ export type WidgetType =
   | 'csm-insights-dashboard'
   | 'csm-training-dashboard'
   // V18 DORA Metrics Widget Type
-  | 'dora-metrics-dashboard';
+  | 'dora-metrics-dashboard'
+  // V20 ITSS Draft Review Widget Type
+  | 'draft-review';
 
 // ============================================================================
 // WIDGET DATA INTERFACES (Based on Bhanu's Demo Data)
@@ -1657,4 +1661,13 @@ export type WidgetData =
   | CSMInsightsDashboardData
   | CSMTrainingDashboardData
   // V18 DORA Metrics
-  | DoraMetricsData;
+  | DoraMetricsData
+  // V20 ITSS Draft Review
+  | Draft;
+
+// ============================================================================
+// V20 ITSS DRAFT REVIEW DATA INTERFACE
+// Re-export Draft type from draft.ts as DraftReviewData for widget compatibility
+// ============================================================================
+
+export type { Draft as DraftReviewData } from './draft';

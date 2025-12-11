@@ -38,7 +38,7 @@ function getAvatarStyle(name: string): string {
 export function Avatar({
   name,
   id,
-  initials: _initials = 'SC', // eslint-disable-line @typescript-eslint/no-unused-vars
+  initials: _initials = 'SC',  
   size = 40,
   className = '',
   variant = 'profile'

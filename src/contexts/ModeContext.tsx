@@ -12,16 +12,29 @@ interface ModeContextType {
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
-export function ModeProvider({ children }: { children: ReactNode }) {
-  const [currentMode, setCurrentMode] = useState<ModeType>('government'); // Default to government
+export function ModeProvider({
+  children,
+  initialMode
+}: {
+  children: ReactNode;
+  initialMode?: ModeType;
+}) {
+  const [currentMode, setCurrentMode] = useState<ModeType>(initialMode || 'government');
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount (only if no initialMode provided)
   useEffect(() => {
+    if (initialMode) {
+      // If initialMode is provided, use it and save to localStorage
+      setCurrentMode(initialMode);
+      localStorage.setItem(MODE_STORAGE_KEY, initialMode);
+      return;
+    }
+
     const savedMode = localStorage.getItem(MODE_STORAGE_KEY) as ModeType | null;
     if (savedMode && (savedMode === 'government' || savedMode === 'project' || savedMode === 'atc')) {
       setCurrentMode(savedMode);
     }
-  }, []);
+  }, [initialMode]);
 
   // Save to localStorage when mode changes
   useEffect(() => {

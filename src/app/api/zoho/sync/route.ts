@@ -14,7 +14,7 @@ export const maxDuration = 60;
  * POST /api/zoho/sync
  * Returns mock data message - actual sync disabled
  */
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   return NextResponse.json({
     success: true,
     message: 'This sync endpoint is currently disabled. The app uses mock data for demo purposes.',
