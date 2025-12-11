@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, Suspense } from 'react';
-import { MessageSquare, ChevronDown, Sparkles, Sun, Moon } from 'lucide-react';
+import { MessageSquare, ChevronDown, Sun, Moon } from 'lucide-react';
 import { InteractiveChat } from '@/components/chat/InteractiveChat';
 import { PersonaProvider, usePersona } from '@/contexts/PersonaContext';
 import { ConversationProvider } from '@/contexts/ConversationContext';
@@ -54,13 +54,8 @@ function ChatPageContent() {
       <div className="sticky top-0 z-30 border-b border-border/50 bg-card-elevated/95 backdrop-blur-xl px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
-                <MessageSquare className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-success border-2 border-card-elevated flex items-center justify-center">
-                <Sparkles className="h-2 w-2 text-success-foreground" />
-              </div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
+              <MessageSquare className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-foreground tracking-tight">AI Assistant</h1>
