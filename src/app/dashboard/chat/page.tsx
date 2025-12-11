@@ -56,7 +56,7 @@ function ChatPageContent() {
           <div>
             <h1 className="text-xl font-bold text-foreground tracking-tight">AI Assistant</h1>
             <p className="text-xs text-muted-foreground">
-              Claude-powered support for IT tickets and knowledge base
+              Intelligent support for IT tickets and knowledge base
             </p>
           </div>
 

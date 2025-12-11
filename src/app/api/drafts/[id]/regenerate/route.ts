@@ -177,7 +177,7 @@ Please generate a new response with the ${tone} tone.`
         version: latestVersion + 1,
         content: newDraftContent,
         editedBy: regeneratedBy || 'AI',
-        editedByName: regeneratedByName || 'Claude AI',
+        editedByName: regeneratedByName || 'AI Assistant',
         editType: tone !== existingDraft.tone ? 'TONE_CHANGE' : 'REGENERATE',
         editSummary: `Regenerated with ${tone} tone`,
         editDistance,

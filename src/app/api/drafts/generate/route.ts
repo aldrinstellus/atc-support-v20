@@ -309,7 +309,7 @@ Please analyze this ticket and generate a response draft.`
         version: 1,
         content: aiResponse.draft,
         editedBy: 'AI',
-        editedByName: 'Claude AI',
+        editedByName: 'AI Assistant',
         editType: 'AI_GENERATED',
         editSummary: `Generated with ${tone} tone`,
         confidenceScore: aiResponse.classification.confidenceScore,
