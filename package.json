@@ -1,8 +1,8 @@
 {
-  "name": "enterprise-ai-support-v20-local",
+  "name": "atc-support-v20",
   "version": "20.0.0",
   "private": true,
-  "description": "Enterprise AI Support V20 - Local Development with ATC/Government/Project Personas",
+  "description": "ATC Support V20 - AI-Enhanced Customer Support with ATC/Government/Project Personas",
   "scripts": {
     "dev": "next dev --turbopack -p 3020",
     "dev:full": "concurrently \"npm run dev:ws\" \"npm run dev\"",
