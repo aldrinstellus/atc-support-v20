@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useCallback, Suspense } from 'react';
-import { ChevronDown, Sun, Moon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { InteractiveChat } from '@/components/chat/InteractiveChat';
 import { PersonaProvider, usePersona } from '@/contexts/PersonaContext';
 import { ConversationProvider } from '@/contexts/ConversationContext';
 import { QuickActionProvider } from '@/contexts/QuickActionContext';
 import { SidebarProvider } from '@/contexts/SidebarContext';
 import { ModeProvider } from '@/contexts/ModeContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import type { Persona, PersonaType } from '@/types/persona';
 
 function ChatLoadingFallback() {
@@ -25,7 +24,6 @@ function ChatLoadingFallback() {
 
 function ChatPageContent() {
   const { currentPersona, setPersona, availablePersonas } = usePersona();
-  const { theme, toggleTheme, mounted } = useTheme();
   const [showPersonaDropdown, setShowPersonaDropdown] = useState(false);
 
   const handlePersonaChange = (persona: Persona) => {
@@ -62,35 +60,6 @@ function ChatPageContent() {
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle - Elegant pill design */}
-            {mounted && (
-              <button
-                onClick={toggleTheme}
-                className="relative flex items-center justify-center w-10 h-10 rounded-full bg-muted/50 hover:bg-muted border border-border/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 group"
-                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                <div className="relative w-5 h-5">
-                  {/* Sun icon - visible in dark mode */}
-                  <Sun
-                    className={`absolute inset-0 h-5 w-5 text-amber-400 transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'opacity-100 rotate-0 scale-100'
-                        : 'opacity-0 rotate-90 scale-50'
-                    }`}
-                  />
-                  {/* Moon icon - visible in light mode */}
-                  <Moon
-                    className={`absolute inset-0 h-5 w-5 text-slate-600 transition-all duration-300 ${
-                      theme === 'light'
-                        ? 'opacity-100 rotate-0 scale-100'
-                        : 'opacity-0 -rotate-90 scale-50'
-                    }`}
-                  />
-                </div>
-              </button>
-            )}
-
             {/* Persona Selector - Compact */}
             <div className="relative">
               <button
