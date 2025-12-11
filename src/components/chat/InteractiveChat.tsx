@@ -2,12 +2,10 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Send, PanelLeft, PanelLeftClose, Copy, Check, RotateCw, ThumbsUp, ThumbsDown, Download, Sun, Moon } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Send, Copy, Check, RotateCw, ThumbsUp, ThumbsDown, Download } from 'lucide-react';
 import { detectWidgetQuery, type PersonaId, type QueryMatch } from '@/lib/query-detection';
 import { WidgetRenderer } from '@/components/widgets/WidgetRenderer';
 import { useQuickAction } from '@/contexts/QuickActionContext';
-import { useSidebar } from '@/contexts/SidebarContext';
 import { useConversation, type Message } from '@/contexts/ConversationContext';
 import { Avatar } from '@/components/ui/Avatar';
 import type { Persona } from '@/types/persona';
@@ -44,8 +42,6 @@ export const InteractiveChat = forwardRef<InteractiveChatRef, InteractiveChatPro
   const inputRef = useRef<HTMLInputElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { quickActionQuery } = useQuickAction();
-  const { sidebarOpen, toggleSidebar } = useSidebar();
-  const { theme, toggleTheme, mounted } = useTheme();
   const searchParams = useSearchParams();
 
   // Accessibility features
@@ -453,38 +449,6 @@ export const InteractiveChat = forwardRef<InteractiveChatRef, InteractiveChatPro
     <div className="flex flex-col h-full bg-background relative">
       {/* Accessibility Controls - Temporarily hidden (can be re-enabled later) */}
       {/* <ClosedCaptions position="bottom" /> */}
-
-      {/* Header Controls */}
-      <div className="absolute left-4 top-4 z-10 flex items-center gap-2">
-        {/* Sidebar Toggle Button */}
-        <button
-          onClick={toggleSidebar}
-          className="flex items-center justify-center rounded-lg border border-border bg-card p-2 hover:bg-muted transition-all"
-          title={`${sidebarOpen ? 'Close' : 'Open'} sidebar (⌘B)`}
-        >
-          {sidebarOpen ? (
-            <PanelLeftClose className="h-5 w-5 text-muted-foreground" />
-          ) : (
-            <PanelLeft className="h-5 w-5 text-muted-foreground" />
-          )}
-        </button>
-
-        {/* Theme Toggle Button */}
-        {mounted && (
-          <button
-            onClick={toggleTheme}
-            className="flex items-center justify-center rounded-lg border border-border bg-card p-2 hover:bg-muted transition-all"
-            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {theme === 'dark' ? (
-              <Moon className="h-5 w-5 text-muted-foreground" />
-            ) : (
-              <Sun className="h-5 w-5 text-muted-foreground" />
-            )}
-          </button>
-        )}
-      </div>
 
       {/* Messages Container */}
       <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-6 py-6 pb-40">

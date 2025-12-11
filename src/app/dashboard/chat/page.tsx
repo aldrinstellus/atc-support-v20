@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useCallback, Suspense } from 'react';
-import { MessageSquare, ChevronDown, Sparkles } from 'lucide-react';
+import { MessageSquare, ChevronDown, Sparkles, Sun, Moon } from 'lucide-react';
 import { InteractiveChat } from '@/components/chat/InteractiveChat';
 import { PersonaProvider, usePersona } from '@/contexts/PersonaContext';
 import { ConversationProvider } from '@/contexts/ConversationContext';
 import { QuickActionProvider } from '@/contexts/QuickActionContext';
 import { SidebarProvider } from '@/contexts/SidebarContext';
 import { ModeProvider } from '@/contexts/ModeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import type { Persona, PersonaType } from '@/types/persona';
 
 function ChatLoadingFallback() {
@@ -24,6 +25,7 @@ function ChatLoadingFallback() {
 
 function ChatPageContent() {
   const { currentPersona, setPersona, availablePersonas } = usePersona();
+  const { theme, toggleTheme, mounted } = useTheme();
   const [showPersonaDropdown, setShowPersonaDropdown] = useState(false);
 
   const handlePersonaChange = (persona: Persona) => {
@@ -68,40 +70,72 @@ function ChatPageContent() {
             </div>
           </div>
 
-          {/* Persona Selector - Compact */}
-          <div className="relative">
-            <button
-              onClick={() => setShowPersonaDropdown(!showPersonaDropdown)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50"
-            >
-              <span className={`h-2 w-2 rounded-full ${getPersonaColor(currentPersona.id)}`} />
-              <span className="text-sm font-medium text-foreground">
-                {currentPersona.name}
-              </span>
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
-            </button>
-
-            {showPersonaDropdown && (
-              <div className="absolute right-0 mt-2 w-56 rounded-lg bg-card-elevated border border-border shadow-xl z-50">
-                <div className="p-2 space-y-1">
-                  <p className="text-xs text-muted-foreground px-2 py-1">Select Role</p>
-                  {availablePersonas.map((persona) => (
-                    <button
-                      key={persona.id}
-                      onClick={() => handlePersonaChange(persona)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                        currentPersona.id === persona.id
-                          ? 'bg-primary/10 text-primary'
-                          : 'hover:bg-muted text-foreground'
-                      }`}
-                    >
-                      <span className={`h-2 w-2 rounded-full ${getPersonaColor(persona.id)}`} />
-                      <span className="text-sm font-medium">{persona.name}</span>
-                    </button>
-                  ))}
+          {/* Right Header Controls */}
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle - Elegant pill design */}
+            {mounted && (
+              <button
+                onClick={toggleTheme}
+                className="relative flex items-center justify-center w-10 h-10 rounded-full bg-muted/50 hover:bg-muted border border-border/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 group"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                <div className="relative w-5 h-5">
+                  {/* Sun icon - visible in dark mode */}
+                  <Sun
+                    className={`absolute inset-0 h-5 w-5 text-amber-400 transition-all duration-300 ${
+                      theme === 'dark'
+                        ? 'opacity-100 rotate-0 scale-100'
+                        : 'opacity-0 rotate-90 scale-50'
+                    }`}
+                  />
+                  {/* Moon icon - visible in light mode */}
+                  <Moon
+                    className={`absolute inset-0 h-5 w-5 text-slate-600 transition-all duration-300 ${
+                      theme === 'light'
+                        ? 'opacity-100 rotate-0 scale-100'
+                        : 'opacity-0 -rotate-90 scale-50'
+                    }`}
+                  />
                 </div>
-              </div>
+              </button>
             )}
+
+            {/* Persona Selector - Compact */}
+            <div className="relative">
+              <button
+                onClick={() => setShowPersonaDropdown(!showPersonaDropdown)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50"
+              >
+                <span className={`h-2 w-2 rounded-full ${getPersonaColor(currentPersona.id)}`} />
+                <span className="text-sm font-medium text-foreground">
+                  {currentPersona.name}
+                </span>
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </button>
+
+              {showPersonaDropdown && (
+                <div className="absolute right-0 mt-2 w-56 rounded-lg bg-card-elevated border border-border shadow-xl z-50">
+                  <div className="p-2 space-y-1">
+                    <p className="text-xs text-muted-foreground px-2 py-1">Select Role</p>
+                    {availablePersonas.map((persona) => (
+                      <button
+                        key={persona.id}
+                        onClick={() => handlePersonaChange(persona)}
+                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+                          currentPersona.id === persona.id
+                            ? 'bg-primary/10 text-primary'
+                            : 'hover:bg-muted text-foreground'
+                        }`}
+                      >
+                        <span className={`h-2 w-2 rounded-full ${getPersonaColor(persona.id)}`} />
+                        <span className="text-sm font-medium">{persona.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
