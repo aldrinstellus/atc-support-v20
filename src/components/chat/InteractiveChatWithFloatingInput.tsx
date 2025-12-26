@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send } from 'lucide-react';
+import { Send, PanelLeft, PanelLeftClose } from 'lucide-react';
 import { InteractiveChat, type InteractiveChatRef } from './InteractiveChat';
 import { CommandPalette } from '../concepts/CommandPalette';
 import { usePersona } from '@/hooks/use-persona';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useQuickAction } from '@/contexts/QuickActionContext';
 import { getDashboardWidgets } from '@/config/dashboard-widgets';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export function InteractiveChatWithFloatingInput() {
   const { currentPersona } = usePersona();
-  const { sidebarOpen } = useSidebar();
+  const { sidebarOpen, toggleSidebar } = useSidebar();
   const { quickActionQuery, setQuickActionQuery } = useQuickAction();
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -72,6 +73,22 @@ export function InteractiveChatWithFloatingInput() {
           display: none;
         }
       `}</style>
+
+      {/* Top Controls - Sidebar Toggle & Theme Toggle */}
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+        <button
+          onClick={toggleSidebar}
+          className="flex items-center justify-center rounded-lg border border-border bg-card p-2 hover:bg-muted transition-all"
+          title={`${sidebarOpen ? 'Close' : 'Open'} sidebar (⌘B)`}
+        >
+          {sidebarOpen ? (
+            <PanelLeftClose className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <PanelLeft className="h-5 w-5 text-muted-foreground" />
+          )}
+        </button>
+        <ThemeToggle />
+      </div>
 
       <div className="floating-input-wrapper h-full">
         <InteractiveChat ref={chatRef} persona={currentPersona} />
