@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { ModeSwitcher } from './ModeSwitcher';
+import { ClientOnly } from '@/components/ui/ClientOnly';
 
 /**
  * CTIS Logo Component
@@ -42,7 +43,9 @@ export const CTISLogo = () => {
       </div>
 
       {/* Mode Switcher - Government vs Project */}
-      <ModeSwitcher />
+      <ClientOnly fallback={<div className="flex items-center gap-1 p-1 bg-background border border-border rounded-lg h-[34px]" />}>
+        <ModeSwitcher />
+      </ClientOnly>
     </div>
   );
 };
