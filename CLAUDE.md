@@ -315,6 +315,12 @@ archive/                      # Session artifacts (organized 2025-12-11)
 - **Target**: ES2017
 - Run `npm run type-check` before all commits
 
+### File Editing Best Practices (Claude Code)
+- **NEVER use bash heredoc** (`cat << 'EOF'`) to write JSX/TSX files - backticks and `${}` get escaped
+- **ALWAYS use the Edit tool** for modifying existing files
+- **Use the Write tool** only for new files, and prefer direct content (not via bash)
+- If Edit tool fails with "file modified", re-read the file and retry immediately
+
 ### Solar Dusk Theme
 Warm, professional color scheme defined in `src/app/globals.css`:
 - Primary: `hsl(25.96 90.48% 47.06%)` (warm orange)
